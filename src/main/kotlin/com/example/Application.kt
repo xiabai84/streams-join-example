@@ -47,7 +47,7 @@ fun main() {
     .also { it.print(Printed.toSysOut()) }
 
 
-    // join will produce multiple records, if multiple values are present in the same join-window
+    // join will produce multiple records, if multiple values with same key are present in the same join-window
     left.join(
         right,
         { v1, v2 ->"streams-inner-join: left:$v1 - right:$v2" },
@@ -58,7 +58,7 @@ fun main() {
     .toStream()
     .also { it.print(Printed.toSysOut()) }
 
-    // left join will produce null for right-table, if key is not present
+    // left join will produce null value in right-table, if key from right side is not present
     left.leftJoin(
         right,
         { v1, v2 -> "streams-left-join: left:$v1 - right:$v2" },
