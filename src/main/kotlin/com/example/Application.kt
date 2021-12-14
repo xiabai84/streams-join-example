@@ -47,14 +47,15 @@ fun main() {
     .also { it.print(Printed.toSysOut()) }
 
 
-    // join will produce multiple records, if multiple values with same key are present in the same join-window
+    // Join operations can produce multiple records, if multiple values with same key are present in the same join-window
+    // This duplication could be removed by using aggreate function like reduce, aggregate or further low level APIs.
     left.join(
         right,
         { v1, v2 ->"streams-inner-join: left:$v1 - right:$v2" },
         JoinWindows.of(Duration.ofSeconds(30))
     )
     .groupByKey()
-    .reduce{ _, v2 -> v2 } // only keep the last change
+    .reduce{ _, v2 -> v2 } // only keep the last change during the join window
     .toStream()
     .also { it.print(Printed.toSysOut()) }
 
